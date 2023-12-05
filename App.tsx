@@ -1,19 +1,17 @@
-import React from 'react';
-import { Home } from './src/pages/Home';
-import theme from './src/global/styles/theme';
-import { ThemeProvider } from 'styled-components';
-import { SignIn } from './src/pages/SignIn';
-import { SignUp } from './src/pages/SignUp';
-
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { ThemeProvider } from "styled-components";
+import theme from "./src/global/styles/theme";
+import { Routes } from "./src/routes";
 
 const App: React.FunctionComponent = () => {
-
   return (
-    <ThemeProvider theme={theme}>
-      <SignUp />
-    </ThemeProvider>
-
+    <NavigationContainer >
+      <ThemeProvider theme={theme}>
+        <Routes />
+      </ThemeProvider>
+    </NavigationContainer>
   );
-}
+};
 
 export default App;
