@@ -74,7 +74,7 @@ export const SignIn: React.FunctionComponent = () => {
               name="email"
               placeholder="Email"
               keyboardType="email-address"
-              error={errors.email && errors.email.message}
+              error={errors.email && errors.email.message.toString()}
             />
             <InputControl
               autoCapitalize="none"
@@ -83,7 +83,7 @@ export const SignIn: React.FunctionComponent = () => {
               name="password"
               placeholder="Senha"
               secureTextEntry
-              error={errors.password && errors.password.message}
+              error={errors.password && errors.password.message.toString()}
             />
             <Button
               title="Entrar"
