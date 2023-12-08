@@ -1,15 +1,17 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { ThemeProvider } from "styled-components";
-import theme from "./src/global/styles/theme";
-import { Routes } from "./src/routes";
-
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from 'styled-components';
+import theme from './src/global/styles/theme';
+import { Routes } from './src/routes';
+import { AuthProvider } from './src/context/AuthContext';
 
 const App: React.FunctionComponent = () => {
   return (
-    <NavigationContainer >
+    <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <Routes />
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
       </ThemeProvider>
     </NavigationContainer>
   );

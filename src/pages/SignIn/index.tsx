@@ -10,7 +10,13 @@ import {
   Icon,
   CreateAccountTitle,
 } from './styles';
-import { ScrollView, KeyboardAvoidingView, Platform, View } from 'react-native';
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  View,
+  Alert,
+} from 'react-native';
 import { Button } from '../../components/Form/Button';
 import logo from '../../assets/logo.png';
 import { useNavigation } from '@react-navigation/native';
@@ -19,6 +25,7 @@ import { InputControl } from '../../components/Form/InputControl';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { AuthContext } from '../../context/AuthContext';
 
 interface ScreenNavigationProp {
   navigate: (screen: string) => void;
@@ -34,6 +41,8 @@ const formSchema = yup.object({
 });
 
 export const SignIn: React.FunctionComponent = () => {
+  const { signIn } = React.useContext(AuthContext);
+  const [loading, setloading] = React.useState(false);
   const {
     handleSubmit,
     control,
@@ -41,13 +50,22 @@ export const SignIn: React.FunctionComponent = () => {
   } = useForm<FieldValues>({
     resolver: yupResolver(formSchema),
   });
+
   const handleSignIn = (form: IFormInputs) => {
     const data = {
       email: form.email,
       password: form.password,
     };
 
-    console.log(data);
+    try {
+      setloading(true);
+      signIn(data);
+    } catch (error) {
+      Alert.alert(
+        'Erro na autenticação',
+        'Ocorreu um erro fazer login, verifique as credenciais.',
+      );
+    }
   };
   const { navigate } = useNavigation<ScreenNavigationProp>();
   return (
@@ -89,6 +107,7 @@ export const SignIn: React.FunctionComponent = () => {
               title="Entrar"
               activeOpacity={0.7}
               onPress={handleSubmit(handleSignIn)}
+              disabled={loading || errors.email || errors.password}
             />
             <ForgotPasswordButton>
               <ForgotPasswordTitle>Esqueci minha senha</ForgotPasswordTitle>
