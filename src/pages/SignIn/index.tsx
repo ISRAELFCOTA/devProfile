@@ -107,7 +107,7 @@ export const SignIn: React.FunctionComponent = () => {
               title="Entrar"
               activeOpacity={0.7}
               onPress={handleSubmit(handleSignIn)}
-              disabled={loading || errors.email || errors.password}
+              disabled={loading || !!errors.email || !!errors.password}
             />
             <ForgotPasswordButton>
               <ForgotPasswordTitle>Esqueci minha senha</ForgotPasswordTitle>
