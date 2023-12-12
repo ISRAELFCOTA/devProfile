@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Container,
   Header,
@@ -10,23 +10,30 @@ import {
   UserGreeting,
   UserName,
   Icon,
-} from "./styles";
+} from './styles';
 
-import avatarDefault from "../../assets/avatar02.png";
+import avatarDefault from '../../assets/avatar02.png';
+import { useAuth } from '../../context/AuthContext';
 
 export const Home: React.FunctionComponent = () => {
+  const { user } = useAuth();
+
   return (
     <Container>
       <Header>
         <UserWrapper>
           <UserInfo>
             <UberAvatarButton onPress={() => {}}>
-              <UserAvatar source={avatarDefault} />
+              <UserAvatar
+                source={
+                  user.avatar_url ? { uri: user.avatar_url } : avatarDefault
+                }
+              />
             </UberAvatarButton>
 
             <UserInfoDetail>
               <UserGreeting>Olá,</UserGreeting>
-              <UserName>Israel</UserName>
+              <UserName>{user.name}</UserName>
             </UserInfoDetail>
           </UserInfo>
 

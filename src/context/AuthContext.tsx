@@ -17,6 +17,7 @@ interface ICredentials {
 interface IAuthContext {
   user: IUser;
   signIn(credentials: ICredentials): void;
+  signOut(): void;
 }
 
 interface IProps {
@@ -59,7 +60,6 @@ export const AuthProvider: React.FunctionComponent<IProps> = ({ children }) => {
       await AsyncStorage.setItem(userData, JSON.stringify(user));
       setData({ token, user });
     } catch (error) {
-      // throw new Error(error as string);
       Alert.alert(
         'Erro na autenticação',
         'Ocorreu um erro fazer login, verifique as credenciais.',
@@ -67,9 +67,25 @@ export const AuthProvider: React.FunctionComponent<IProps> = ({ children }) => {
     }
   };
 
+  const signOut = async () => {
+    await AsyncStorage.removeItem(tokenData);
+    await AsyncStorage.removeItem(userData);
+    setData({} as IAuthState);
+  };
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = (): IAuthContext => {
+  const context = React.useContext(AuthContext);
+
+  if (!context) {
+    throw new Error('useAuth deve ser usado em um AuthProvider.');
+  }
+
+  return context;
 };
