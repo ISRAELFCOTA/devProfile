@@ -1,23 +1,13 @@
 import React from 'react';
+import { Container, Content, Title } from './styles';
 import {
-  Container,
-  Content,
-  Logo,
-  Title,
-  ForgotPasswordButton,
-  ForgotPasswordTitle,
-  CreateAccount,
-  Icon,
-  CreateAccountTitle,
-} from './styles';
-import {
-  ScrollView,
+  Alert,
   KeyboardAvoidingView,
   Platform,
-  View,
-  Alert,
+  ScrollView,
 } from 'react-native';
 import { Button } from '../../components/Form/Button';
+import { Logo, BackToSignIn, Icon, BackToSignTitle } from './styles';
 import logo from '../../assets/logo.png';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, FieldValues } from 'react-hook-form';
@@ -25,24 +15,25 @@ import { InputControl } from '../../components/Form/InputControl';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useAuth } from '../../context/AuthContext';
+
+import { api } from '../../services/api';
 
 interface ScreenNavigationProp {
-  navigate: (screen: string) => void;
+  goBack: () => void;
+  navigate(screen: string): void;
 }
-
 interface IFormInputs {
   [name: string]: any;
 }
-
 const formSchema = yup.object({
-  email: yup.string().email('Email inválido.').required('Informe o email'),
-  password: yup.string().required('Informe a senha'),
+  token: yup.string().uuid('Código inválido.').required('Informe o código'),
+  password: yup.string().required('Informe a nova senha'),
+  password_confirmation: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Confirmação incorreta.'),
 });
 
-export const SignIn: React.FunctionComponent = () => {
-  const { signIn } = useAuth();
-  const [loading, setloading] = React.useState(false);
+export const ResetPassword: React.FunctionComponent = () => {
   const {
     handleSubmit,
     control,
@@ -51,23 +42,30 @@ export const SignIn: React.FunctionComponent = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const handleSignIn = (form: IFormInputs) => {
+  const { goBack, navigate } = useNavigation<ScreenNavigationProp>();
+
+  const handleResetPassword = async (form: IFormInputs) => {
     const data = {
-      email: form.email,
+      token: form.token,
       password: form.password,
+      password_confirmation: form.password_confirmation,
     };
 
     try {
-      setloading(true);
-      signIn(data);
+      await api.post('password/reset', data);
+      Alert.alert(
+        'Senha Redefinida',
+        'A Senha for redefinida com sucesso. Efetue login para acessar.',
+      );
+      navigate('ResetPassword');
     } catch (error) {
       Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro fazer login, verifique as credenciais.',
+        'Erro na redefinição',
+        'Ocorreu um erro ao redefinir a senha, tente novamente',
       );
     }
   };
-  const { navigate } = useNavigation<ScreenNavigationProp>();
+
   return (
     <KeyboardAvoidingView
       enabled
@@ -81,17 +79,13 @@ export const SignIn: React.FunctionComponent = () => {
         <Container>
           <Content>
             <Logo source={logo} />
-            <View>
-              <Title>Faça seu Login</Title>
-            </View>
-
+            <Title>Redefinir a senha</Title>
             <InputControl
               autoCapitalize="none"
               autoCorrect={false}
               control={control}
-              name="email"
-              placeholder="Email"
-              keyboardType="email-address"
+              name="token"
+              placeholder="Código"
               error={errors.email && errors.email.message.toString()}
             />
             <InputControl
@@ -103,26 +97,30 @@ export const SignIn: React.FunctionComponent = () => {
               secureTextEntry
               error={errors.password && errors.password.message.toString()}
             />
-            <Button
-              title="Entrar"
-              activeOpacity={0.7}
-              disabled={loading || !!errors.email || !!errors.password}
-              onPress={handleSubmit(handleSignIn)}
+            <InputControl
+              autoCapitalize="none"
+              autoCorrect={false}
+              control={control}
+              name="password_confirmation"
+              placeholder="Nova Senha"
+              secureTextEntry
+              error={
+                errors.password_confirmation &&
+                errors.password_confirmation.message.toString()
+              }
             />
-            <ForgotPasswordButton onPress={() => navigate('ForgotPassword')}>
-              <ForgotPasswordTitle>Esqueci minha senha</ForgotPasswordTitle>
-            </ForgotPasswordButton>
+            <Button
+              title="Enviar"
+              activeOpacity={0.7}
+              onPress={handleSubmit(handleResetPassword)}
+            />
           </Content>
         </Container>
       </ScrollView>
-      <CreateAccount
-        onPress={() => {
-          navigate('SignUp');
-        }}
-      >
-        <Icon name="log-in" />
-        <CreateAccountTitle>Criar uma conta</CreateAccountTitle>
-      </CreateAccount>
+      <BackToSignIn onPress={() => goBack()}>
+        <Icon name="arrow-left" />
+        <BackToSignTitle>Voltar para Login</BackToSignTitle>
+      </BackToSignIn>
     </KeyboardAvoidingView>
   );
 };

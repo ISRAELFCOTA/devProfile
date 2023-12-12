@@ -4,10 +4,12 @@ import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
 import { Routes } from './src/routes';
 import { AuthProvider } from './src/context/AuthContext';
+import { StatusBar } from 'expo-status-bar';
 
 const App: React.FunctionComponent = () => {
   return (
     <NavigationContainer>
+      <StatusBar backgroundColor='transparent' translucent/>
       <ThemeProvider theme={theme}>
         <AuthProvider>
           <Routes />
