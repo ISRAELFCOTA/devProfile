@@ -57,7 +57,7 @@ export const ResetPassword: React.FunctionComponent = () => {
         'Senha Redefinida',
         'A Senha for redefinida com sucesso. Efetue login para acessar.',
       );
-      navigate('ResetPassword');
+      navigate('SignIn');
     } catch (error) {
       Alert.alert(
         'Erro na redefinição',

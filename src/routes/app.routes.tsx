@@ -2,6 +2,7 @@ import React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../pages/Home';
+import { UserDatails } from '../pages/UserDetails';
 
 const App = createNativeStackNavigator();
 
@@ -14,6 +15,11 @@ export const AppRoutes: React.FunctionComponent = () => {
       <App.Screen
         name="Home"
         component={Home}
+        options={{ presentation: 'transparentModal' }}
+      />
+      <App.Screen
+        name="UserDatails"
+        component={UserDatails}
         options={{ presentation: 'transparentModal' }}
       />
 

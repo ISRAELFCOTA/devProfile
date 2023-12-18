@@ -1,6 +1,8 @@
-import styled from "styled-components/native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { Feather } from "@expo/vector-icons";
+import styled from 'styled-components/native';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { Feather } from '@expo/vector-icons';
+import { FlatList, FlatListProps } from 'react-native';
+import { IUser } from '../../model/user';
 
 export const Container = styled.View`
   flex: 1;
@@ -48,7 +50,7 @@ export const UserGreeting = styled.Text`
 
 export const UserName = styled.Text`
   color: ${({ theme }) => theme.colors.gray800};
-  font-size: ${RFValue(18)}px;
+  font-size: ${RFValue(14)}px;
   font-weight: bold;
 `;
 
@@ -57,6 +59,25 @@ export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.dark};
 `;
 
-export const LogoutButton = styled.TouchableOpacity`
+export const LogoutButton = styled.TouchableOpacity``;
 
+export const UserList = styled(
+  FlatList as new (props: FlatListProps<IUser>) => FlatList<IUser>,
+).attrs({
+  contentContainerStyle: {
+    padding: 24,
+  },
+  showVerticalScrollIndicator: false,
+})``;
+
+export const UserListEmpity = styled.Text`
+  color: ${({ theme }) => theme.colors.gray500};
+  font-size: ${RFValue(18)}px;
+`;
+
+export const UserListHeader = styled.Text`
+  color: ${({ theme }) => theme.colors.gray500};
+  font-size: ${RFValue(24)}px;
+  font-weight: bold;
+  margin-bottom: ${RFValue(8)}px;
 `;
