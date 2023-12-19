@@ -36,6 +36,9 @@ export const UserProfile: React.FunctionComponent = () => {
   const handleEditProfile = () => {
     navigate('UserProfileEdit');
   };
+  const handleProfilePassord = () => {
+    navigate('UserProfilePassword');
+  };
 
   return (
     <Container>
@@ -78,7 +81,7 @@ export const UserProfile: React.FunctionComponent = () => {
           bgColor="#121214"
           color="#a8a8b3"
           title="Trocar senha"
-          onPress={() => {}}
+          onPress={handleProfilePassord}
         />
       </Content>
     </Container>

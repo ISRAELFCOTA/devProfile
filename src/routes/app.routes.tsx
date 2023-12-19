@@ -5,6 +5,7 @@ import { Home } from '../pages/Home';
 import { UserDatails } from '../pages/UserDetails';
 import { UserProfile } from '../pages/UserProfile';
 import { UserProfileEdit } from '../pages/UserProfileEdit';
+import { UserProfilePassword } from '../pages/UserProfilePassword';
 
 const App = createNativeStackNavigator();
 
@@ -32,6 +33,11 @@ export const AppRoutes: React.FunctionComponent = () => {
       <App.Screen
         name="UserProfileEdit"
         component={UserProfileEdit}
+        options={{ presentation: 'transparentModal' }}
+      />
+      <App.Screen
+        name="UserProfilePassword"
+        component={UserProfilePassword}
         options={{ presentation: 'transparentModal' }}
       />
     </App.Navigator>
