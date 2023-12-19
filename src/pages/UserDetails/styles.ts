@@ -8,7 +8,7 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
-    width: 100%;
+  width: 100%;
   height: ${RFPercentage(16)}px;
   background-color: ${({ theme }) => theme.colors.secondary};
   justify-content: center;
@@ -47,7 +47,7 @@ export const ContentTitle = styled.Text`
   margin: 0 auto;
 `;
 export const UserDatailAvatar = styled.Image`
-   width: ${RFValue(120)}px;
+  width: ${RFValue(120)}px;
   height: ${RFValue(120)}px;
   border-radius: 10px;
   margin: 0 auto;

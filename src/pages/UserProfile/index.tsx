@@ -25,11 +25,17 @@ import { Button } from '../../components/Form/Button';
 
 interface ScreenNavigationProps {
   goBack: () => void;
+  navigate: (screen: string) => void;
 }
 
 export const UserProfile: React.FunctionComponent = () => {
   const { user } = useAuth();
   const { goBack } = useNavigation<ScreenNavigationProps>();
+  const { navigate } = useNavigation<ScreenNavigationProps>();
+
+  const handleEditProfile = () => {
+    navigate('UserProfileEdit');
+  };
 
   return (
     <Container>
@@ -61,8 +67,19 @@ export const UserProfile: React.FunctionComponent = () => {
           <EmailData>{user.email}</EmailData>
         </UserEmailDetail>
 
-        <Button bgColor='#121214' color='#f1f1f1' title='Editar dados do perfil' onPress={()=> {}}/>
-        <Button borderColor='#a8a8b3' bgColor='#121214' color='#a8a8b3' title='Trocar senha' onPress={()=> {}}/>
+        <Button
+          bgColor="#121214"
+          color="#f1f1f1"
+          title="Editar dados do perfil"
+          onPress={handleEditProfile}
+        />
+        <Button
+          borderColor="#a8a8b3"
+          bgColor="#121214"
+          color="#a8a8b3"
+          title="Trocar senha"
+          onPress={() => {}}
+        />
       </Content>
     </Container>
   );
