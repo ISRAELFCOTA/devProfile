@@ -1,18 +1,34 @@
 import styled from "styled-components/native";
 
-import { TouchableOpacity } from "react-native";
+import { TextProps, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import { css } from "styled-components/native";
 
-export const Container = styled(TouchableOpacity)`
+interface ButtonProps {
+  bgColor?: string;
+  borderColor?: string;
+}
+
+interface TitleProps {
+  color?: string;
+}
+
+export const Container = styled(TouchableOpacity)<ButtonProps>`
   width: 100%;
   align-items: center;
-  background-color: ${({theme})=> theme.colors.primary};
+  ${({theme, bgColor, borderColor})=>css`
+    background-color: ${bgColor || theme.colors.primary};
+    border-color: ${borderColor || theme.colors.gray800};
+  `}
+  border-width: ${(RFValue(1))}px;
   border-radius: 5px;
   padding: 18px;
   margin-top: ${RFValue(16)}px;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<TitleProps>`
   font-size: ${RFValue(14)}px;
-  color: ${({theme})=> theme.colors.dark};
+  ${({theme, color})=>css`
+    color: ${color || theme.colors.dark};
+  `}
 `;

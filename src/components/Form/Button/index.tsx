@@ -1,16 +1,24 @@
 import React from "react";
 import { Container, Title } from "./styles";
-import { TouchableOpacityProps } from "react-native";
+import { TextProps, TouchableOpacityProps } from "react-native";
 
-interface ButtonProps extends TouchableOpacityProps {
+
+interface Props extends TouchableOpacityProps {
   title: string;
+  color?: string;
+  bgColor?: string;
+  borderColor?: string;
 }
 
-export const Button: React.FunctionComponent<ButtonProps> = ({
+
+export const Button: React.FunctionComponent<Props> = ({
   title,
+  color,
+  bgColor,
+  borderColor,
   ...otherProps
 }) => {
-  return <Container {...otherProps}>
-    <Title>{title}</Title>
+  return <Container bgColor={bgColor} borderColor={borderColor} {...otherProps}>
+    <Title color={color}>{title}</Title>
   </Container>;
 };

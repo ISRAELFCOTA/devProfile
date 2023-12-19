@@ -5,7 +5,7 @@ import {
   Header,
   UserWrapper,
   UserInfo,
-  UberAvatarButton,
+  UserAvatarButton,
   UserAvatar,
   UserInfoDetail,
   UserGreeting,
@@ -53,22 +53,24 @@ export const Home: React.FunctionComponent = () => {
   };
 
   const handleUserDetails = (userId: string) => {
-    navigate('UserDatails', {userId});
-
-  }
+    navigate('UserDatails', { userId });
+  };
+  const HandleUserProfile = () => {
+    navigate('UserProfile');
+  };
 
   return (
     <Container>
       <Header>
         <UserWrapper>
           <UserInfo>
-            <UberAvatarButton onPress={() => {}}>
+            <UserAvatarButton onPress={HandleUserProfile}>
               <UserAvatar
                 source={
                   user.avatar_url ? { uri: user.avatar_url } : avatarDefault
                 }
               />
-            </UberAvatarButton>
+            </UserAvatarButton>
 
             <UserInfoDetail>
               <UserGreeting>Olá,</UserGreeting>
@@ -84,7 +86,9 @@ export const Home: React.FunctionComponent = () => {
       <UserList
         data={users}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => <User data={item} onPress={() => handleUserDetails(item.id)} />}
+        renderItem={({ item }) => (
+          <User data={item} onPress={() => handleUserDetails(item.id)} />
+        )}
         ListHeaderComponent={<UserListHeader>Usuários</UserListHeader>}
         ListEmptyComponent={
           <UserListEmpity>Ops! Ainda não há registros.</UserListEmpity>
